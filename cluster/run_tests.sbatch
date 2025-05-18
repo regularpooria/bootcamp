@@ -27,6 +27,6 @@ if [ -z "$VIRTUAL_ENV" ]; then
   echo "Virtual environment is not activated. Please activate it before running this script."
   exit 1
 fi
-
-pip install -r requirements.txt
+pip install --no-index --upgrade pip
+pip install --no-index -r requirements.txt
 pytest
