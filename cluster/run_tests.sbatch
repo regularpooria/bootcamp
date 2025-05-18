@@ -18,8 +18,10 @@ DATE=$(date +%Y-%m-%d)
 echo "Running tests for run name: $RUN_NAME on $DATE"
 
 module load python/3.10
+module load podman
+module load rust # Required to build podman-py python package in `pip install`
 
-source /venv/bin/activate
+source .venv/bin/activate
 # Check if the virtual environment is activated
 if [ -z "$VIRTUAL_ENV" ]; then
   echo "Virtual environment is not activated. Please activate it before running this script."
