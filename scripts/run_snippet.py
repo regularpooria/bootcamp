@@ -20,7 +20,8 @@ def setup_podman():
             # Check if the container already exists
             container = client.containers.get("sandbox_container")
             if container.status != "running":
-                raise RuntimeError("Container is not running.")
+                print("Container is not running. Starting it...")
+                container.start()
 
             return client, container
         except Exception:
