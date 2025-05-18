@@ -10,10 +10,27 @@
 #     logging.info("Output:%s", result.stdout.decode())
 #     logging.error("Errors:%s", result.stderr.decode())
 from podman import PodmanClient
+import subprocess
+
+def get_podman_socket():
+    try:
+        result = subprocess.run(
+            "podman info --debug | grep -o '/run/user/[0-9]*/podman/podman.sock'",
+            shell=True,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        path = result.stdout.strip()
+        if not path:
+            raise RuntimeError("Socket path not found.")
+        return f'unix://{path}'
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Command failed: {e.stderr}")
 
 def setup_podman():
     try:
-        client = PodmanClient(base_url='unix:///run/user/1000/podman/podman.sock')
+        client = PodmanClient(base_url=get_podman_socket())
         client.ping()
         
         try:

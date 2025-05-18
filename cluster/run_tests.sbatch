@@ -28,5 +28,5 @@ if [ -z "$VIRTUAL_ENV" ]; then
   exit 1
 fi
 pip install --no-index --upgrade pip
-pip install --no-index -r requirements.txt
+pip install --no-index -r requirements_cluster.txt
 pytest
